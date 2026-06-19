@@ -1,11 +1,32 @@
-name: macOS Runner Demo
+name: iOS CI/CD
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  demo:
+  build-ios:
     runs-on: macos-latest
 
     steps:
-      - name: Display Message
-        run: echo "Hello from macOS Runner"
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: pod install
+
+      - name: Build Application
+        run: |
+          xcodebuild \
+          -workspace MyApp.xcworkspace \
+          -scheme MyApp \
+          -sdk iphonesimulator \
+          build
+
+      - name: Run Tests
+        run: |
+          xcodebuild test \
+          -workspace MyApp.xcworkspace \
+          -scheme MyApp \
+          -destination 'platform=iOS Simulator,name=iPhone 15'
