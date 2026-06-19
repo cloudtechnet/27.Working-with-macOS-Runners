@@ -1,0 +1,11 @@
+name: macOS Runner Demo
+
+on: push
+
+jobs:
+  demo:
+    runs-on: macos-latest
+
+    steps:
+      - name: Display Message
+        run: echo "Hello from macOS Runner"
